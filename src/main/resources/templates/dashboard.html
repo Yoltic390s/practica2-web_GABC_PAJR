@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | SAES</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <!-- ======================================================= -->
+    <!-- NAVBAR SUPERIOR ACTUALIZADA (AQUÍ MOSTRAMOS EL USUARIO) -->
+    <!-- ======================================================= -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <ul class="navbar-nav ml-auto">
+            <!-- Mostramos el nombre del usuario logueado usando la variable nombreUsuario -->
+            <li class="nav-item d-flex align-items-center mr-4">
+        <span class="text-secondary" style="font-size: 1.1rem;">
+          <i class="fas fa-user-circle"></i> Hola, <b th:text="${nombreUsuario}">Usuario</b>
+        </span>
+            </li>
+            <!-- Botón para cerrar sesión real (apunta a /logout) -->
+            <li class="nav-item">
+                <a class="nav-link text-danger" th:href="@{/logout}">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Menú Lateral -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <a href="#" class="brand-link">
+            <span class="brand-text font-weight-light"><b>SAES</b> UPIIZ</span>
+        </a>
+        <div class="sidebar">
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>Directorio Alumnos</p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Gestión de Alumnos y Estadísticas</h1>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <a th:href="@{/dashboard/nuevo}" class="btn btn-success"><i class="fas fa-plus"></i> Nuevo Alumno</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+
+                <!-- Tarjetas de Estadísticas Superiores -->
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3 th:text="${totalSistemas}">0</h3>
+                                <p>Sistemas Computacionales</p>
+                            </div>
+                            <div class="icon"><i class="fas fa-laptop-code"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3 th:text="${totalMecatronica}">0</h3>
+                                <p>Ingeniería Mecatrónica</p>
+                            </div>
+                            <div class="icon"><i class="fas fa-robot"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3 th:text="${totalAmbiental}">0</h3>
+                                <p>Ingeniería Ambiental</p>
+                            </div>
+                            <div class="icon"><i class="fas fa-leaf"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3 th:text="${totalDatos}">0</h3>
+                                <p>Ciencias de Datos</p>
+                            </div>
+                            <div class="icon"><i class="fas fa-database"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN DE GRÁFICAS -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-danger">
+                            <div class="card-header"><h3 class="card-title">Donut Chart</h3></div>
+                            <div class="card-body"><canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-success">
+                            <div class="card-header"><h3 class="card-title">Bar Chart</h3></div>
+                            <div class="card-body"><div class="chart"><canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-primary">
+                            <div class="card-header"><h3 class="card-title">Pie Chart</h3></div>
+                            <div class="card-body"><canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-info">
+                            <div class="card-header"><h3 class="card-title">Stacked Bar Chart</h3></div>
+                            <div class="card-body"><div class="chart"><canvas id="stackedBarChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla CRUD -->
+                <div class="card mt-4">
+                    <div class="card-header bg-dark">
+                        <h3 class="card-title">Listado de Alumnos</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Matrícula</th>
+                                <th>Nombre Completo</th>
+                                <th>Carrera</th>
+                                <th style="width: 20%">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="alumno : ${alumnos}">
+                                <td th:text="${alumno.id}"></td>
+                                <td th:text="${alumno.matricula}"></td>
+                                <td th:text="${alumno.nombre + ' ' + alumno.apellidos}"></td>
+                                <td th:text="${alumno.carrera}"></td>
+                                <td class="project-actions">
+                                    <a class="btn btn-info btn-sm" th:href="@{/dashboard/editar/{id}(id=${alumno.id})}"><i class="fas fa-pencil-alt"></i> Editar</a>
+                                    <a class="btn btn-danger btn-sm" th:href="@{/dashboard/eliminar/{id}(id=${alumno.id})}" onclick="return confirm('¿Seguro que deseas eliminar este registro?');"><i class="fas fa-trash"></i> Borrar</a>
+                                </td>
+                            </tr>
+                            <tr th:if="${alumnos.empty}">
+                                <td colspan="5" class="text-center">No hay alumnos registrados aún.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
+
+<script th:inline="javascript">
+    $(function () {
+        var sysData = /*[[${totalSistemas}]]*/ 0;
+        var mecaData = /*[[${totalMecatronica}]]*/ 0;
+        var ambData = /*[[${totalAmbiental}]]*/ 0;
+        var dataData = /*[[${totalDatos}]]*/ 0;
+        var labelsCarreras = ['Sistemas', 'Mecatrónica', 'Ambiental', 'Ciencias de Datos'];
+
+        var circularData = {
+            labels: labelsCarreras,
+            datasets: [{
+                data: [sysData, mecaData, ambData, dataData],
+                backgroundColor : ['#17a2b8', '#28a745', '#ffc107', '#dc3545'],
+            }]
+        }
+        var circularOptions = { maintainAspectRatio : false, responsive : true }
+
+        new Chart($('#donutChart').get(0).getContext('2d'), { type: 'doughnut', data: circularData, options: circularOptions })
+        new Chart($('#pieChart').get(0).getContext('2d'), { type: 'pie', data: circularData, options: circularOptions })
+
+        var areaChartData = {
+            labels  : labelsCarreras,
+            datasets: [{
+                label               : 'Alumnos Inscritos',
+                backgroundColor     : 'rgba(60,141,188,0.9)',
+                borderColor         : 'rgba(60,141,188,0.8)',
+                pointRadius         : false,
+                data                : [sysData, mecaData, ambData, dataData]
+            }]
+        }
+        var barChartOptions = { responsive: true, maintainAspectRatio: false, datasetFill: false }
+        var barChartData = $.extend(true, {}, areaChartData)
+        new Chart($('#barChart').get(0).getContext('2d'), { type: 'bar', data: barChartData, options: barChartOptions })
+
+        var stackedBarChartData = $.extend(true, {}, barChartData)
+        stackedBarChartData.datasets.push({
+            label               : 'Egresados (Simulado)',
+            backgroundColor     : 'rgba(210, 214, 222, 1)',
+            borderColor         : 'rgba(210, 214, 222, 1)',
+            data                : [sysData + 2, mecaData + 1, ambData + 3, dataData + 2]
+        })
+        var stackedBarChartOptions = {
+            responsive: true, maintainAspectRatio: false,
+            scales: { xAxes: [{ stacked: true }], yAxes: [{ stacked: true }] }
+        }
+        new Chart($('#stackedBarChart').get(0).getContext('2d'), { type: 'bar', data: stackedBarChartData, options: stackedBarChartOptions })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+
+CREATE TABLE IF NOT EXISTS usuarios (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    boleta VARCHAR(20) NOT NULL UNIQUE,
+    contrasena VARCHAR(255) NOT NULL
+    );
+
+
+CREATE TABLE IF NOT EXISTS alumnos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(100) NOT NULL,
+    matricula VARCHAR(20) NOT NULL UNIQUE,
+    correo VARCHAR(100),
+    carrera VARCHAR(100)
+    );

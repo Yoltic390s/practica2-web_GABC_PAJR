@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${alumno.id == null ? 'Nuevo Alumno' : 'Editar Alumno'}">Formulario Alumno</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <!-- ======================================================= -->
+    <!-- NAVBAR SUPERIOR ACTUALIZADA (AQUÍ MOSTRAMOS EL USUARIO) -->
+    <!-- ======================================================= -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left: 0;">
+        <ul class="navbar-nav ml-auto">
+            <!-- Mostramos el nombre del usuario logueado -->
+            <li class="nav-item d-flex align-items-center mr-4">
+        <span class="text-secondary" style="font-size: 1.1rem;">
+          <i class="fas fa-user-circle"></i> Hola, <b th:text="${nombreUsuario}">Usuario</b>
+        </span>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-danger" th:href="@{/logout}">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="content-wrapper" style="margin-left: 0;">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 th:text="${alumno.id == null ? 'Registrar Nuevo Alumno' : 'Editar Alumno'}">Formulario</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Datos del Estudiante</h3>
+                            </div>
+
+                            <form th:action="@{/dashboard/guardar}" th:object="${alumno}" method="post">
+                                <input type="hidden" th:field="*{id}" />
+
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Matrícula / Boleta</label>
+                                        <input type="text" class="form-control" th:field="*{matricula}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nombre(s)</label>
+                                        <input type="text" class="form-control" th:field="*{nombre}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Apellidos</label>
+                                        <input type="text" class="form-control" th:field="*{apellidos}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Correo Electrónico</label>
+                                        <input type="email" class="form-control" th:field="*{correo}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Carrera</label>
+                                        <select class="form-control" th:field="*{carrera}">
+                                            <option value="Ingeniería en Sistemas Computacionales">Ingeniería en Sistemas Computacionales</option>
+                                            <option value="Ingeniería Mecatrónica">Ingeniería Mecatrónica</option>
+                                            <option value="Ingeniería Ambiental">Ingeniería Ambiental</option>
+                                            <option value="Ciencias de Datos">Ciencias de Datos</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer text-right">
+                                    <a th:href="@{/dashboard}" class="btn btn-secondary">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary">Guardar Alumno</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+</body>
+</html>
