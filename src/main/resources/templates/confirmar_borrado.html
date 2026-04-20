@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Confirmar Eliminación</title>
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left: 0;">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item d-flex align-items-center mr-4">
+                <span class="text-secondary"><i class="fas fa-user-circle"></i> Hola, <b th:text="${nombreUsuario}">Usuario</b></span>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="content-wrapper" style="margin-left: 0;">
+        <section class="content-header">
+            <div class="container-fluid">
+                <h1 class="text-danger"><i class="fas fa-exclamation-triangle"></i> Confirmar Eliminación</h1>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card card-danger">
+                            <div class="card-header">
+                                <h3 class="card-title">Vas a borrar este registro de <b th:text="${entidadNombre}">Entidad</b>. ¿Estás seguro?</h3>
+                            </div>
+
+                            <form th:action="@{${urlEliminar}}" method="post">
+                                <div class="card-body">
+                                    <div class="form-group" th:each="detalle : ${detalles}">
+                                        <label th:text="${detalle.key}"></label>
+                                        <input type="text" class="form-control" th:value="${detalle.value}" readonly>
+                                    </div>
+
+                                </div>
+                                <div class="card-footer text-right">
+                                    <a th:href="@{${urlRegresar}}" class="btn btn-secondary">Regresar</a>
+                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Sí, Borrar Definitivamente</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+</body>
+</html>

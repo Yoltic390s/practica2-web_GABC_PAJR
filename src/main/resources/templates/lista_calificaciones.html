@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Registro de Calificaciones</title>
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item d-flex align-items-center mr-4">
+                <span class="text-secondary"><i class="fas fa-user-circle"></i> Hola, <b th:text="${nombreUsuario}">Usuario</b></span>
+            </li>
+            <li class="nav-item"><a class="nav-link text-danger" th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <a href="#" class="brand-link"><span class="brand-text font-weight-light"><b>SAES</b> Panel</span></a>
+        <div class="sidebar">
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
+                    <li class="nav-item"><a th:href="@{/dashboard}" class="nav-link"><i class="nav-icon fas fa-chart-line"></i><p>Dashboard</p></a></li>
+                    <li class="nav-item"><a th:href="@{/estudiantes}" class="nav-link"><i class="nav-icon fas fa-user-graduate"></i><p>Estudiantes</p></a></li>
+                    <li class="nav-item"><a th:href="@{/cursos}" class="nav-link"><i class="nav-icon fas fa-book"></i><p>Cursos</p></a></li>
+                    <li class="nav-item"><a th:href="@{/clientes}" class="nav-link"><i class="nav-icon fas fa-users"></i><p>Clientes</p></a></li>
+                    <li class="nav-item"><a th:href="@{/reservas}" class="nav-link"><i class="nav-icon fas fa-calendar-check"></i><p>Reservas</p></a></li>
+                    <li class="nav-item"><a th:href="@{/calificaciones}" class="nav-link active"><i class="nav-icon fas fa-star"></i><p>Calificaciones</p></a></li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6"><h1><i class="fas fa-star text-primary"></i> Control de Calificaciones</h1></div>
+                    <div class="col-sm-6 text-right">
+                        <a th:href="@{/calificaciones/nuevo}" class="btn btn-primary shadow-sm"><b><i class="fas fa-plus"></i> Asignar Calificación</b></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="card shadow">
+                <div class="card-body p-0">
+                    <table class="table table-hover table-striped">
+                        <thead class="bg-primary">
+                        <tr>
+                            <th><i class="fas fa-user"></i> Estudiante</th>
+                            <th><i class="fas fa-book-open"></i> Curso</th>
+                            <th><i class="fas fa-calendar-alt"></i> Semestre</th>
+                            <th><i class="fas fa-check-circle"></i> Calificación</th>
+                            <th><i class="fas fa-cogs"></i> Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cal : ${calificaciones}">
+                            <!-- Aquí ocurre la magia: Usamos el ID para buscar el Nombre en el mapa de Java -->
+                            <td class="font-weight-bold" th:text="${mapaEstudiantes[cal.estudianteId]}"></td>
+                            <td th:text="${mapaCursos[cal.cursoId]}"></td>
+
+                            <td th:text="${cal.semestre}"></td>
+                            <td>
+                                <span th:if="${cal.calificacion >= 6}" class="badge badge-success py-1 px-2" style="font-size: 1rem;" th:text="${cal.calificacion}"></span>
+                                <span th:if="${cal.calificacion < 6}" class="badge badge-danger py-1 px-2" style="font-size: 1rem;" th:text="${cal.calificacion}"></span>
+                            </td>
+                            <td>
+                                <a class="btn btn-info btn-sm shadow-sm" th:href="@{/calificaciones/editar/{id}(id=${cal.id})}"><i class="fas fa-pencil-alt"></i> Editar</a>
+                                <a class="btn btn-danger btn-sm shadow-sm" th:href="@{/calificaciones/borrar/{id}(id=${cal.id})}"><i class="fas fa-trash"></i> Borrar</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+</body>
+</html>

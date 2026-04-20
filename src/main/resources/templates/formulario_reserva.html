@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title th:text="${reserva.idReserva == null ? 'Nueva Reserva' : 'Editar Reserva'}"></title>
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left: 0;">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item d-flex align-items-center mr-4">
+                <span class="text-secondary"><i class="fas fa-user-circle"></i> Hola, <b th:text="${nombreUsuario}"></b></span>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="content-wrapper" style="margin-left: 0;">
+        <section class="content-header">
+            <div class="container-fluid">
+                <h1 th:text="${reserva.idReserva == null ? 'Registrar Reserva' : 'Editar Reserva'}"></h1>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card card-danger">
+                            <div class="card-header"><h3 class="card-title">Datos de la Reserva</h3></div>
+
+                            <form th:action="@{/reservas/guardar}" th:object="${reserva}" method="post">
+                                <input type="hidden" th:field="*{idReserva}" th:if="${reserva.idReserva != null}" />
+
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Cliente</label>
+                                        <select class="form-control" th:field="*{idCliente}" required>
+                                            <option value="" disabled selected>-- Selecciona un Cliente --</option>
+                                            <!-- Bucle para mostrar todos los clientes -->
+                                            <option th:each="cli : ${clientes}" th:value="${cli.idCliente}" th:text="${cli.nombreCompleto}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Habitación</label>
+                                        <input type="number" class="form-control" th:field="*{habitacion}" required min="1">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 form-group">
+                                            <label>Fecha de Entrada</label>
+                                            <input type="date" class="form-control" th:field="*{fechaEntrada}" required>
+                                        </div>
+                                        <div class="col-6 form-group">
+                                            <label>Fecha de Salida</label>
+                                            <input type="date" class="form-control" th:field="*{fechaSalida}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-right">
+                                    <a th:href="@{/reservas}" class="btn btn-secondary">Cancelar</a>
+                                    <button type="submit" class="btn btn-danger"><b>Guardar Reserva</b></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+</body>
+</html>

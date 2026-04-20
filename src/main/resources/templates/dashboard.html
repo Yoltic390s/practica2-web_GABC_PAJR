@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard | SAES</title>
-
+    <title>Dashboard Principal | SAES</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
     <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
@@ -12,169 +11,63 @@
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
-    <!-- ======================================================= -->
-    <!-- NAVBAR SUPERIOR ACTUALIZADA (AQUÍ MOSTRAMOS EL USUARIO) -->
-    <!-- ======================================================= -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <ul class="navbar-nav ml-auto">
-            <!-- Mostramos el nombre del usuario logueado usando la variable nombreUsuario -->
             <li class="nav-item d-flex align-items-center mr-4">
         <span class="text-secondary" style="font-size: 1.1rem;">
           <i class="fas fa-user-circle"></i> Hola, <b th:text="${nombreUsuario}">Usuario</b>
         </span>
             </li>
-            <!-- Botón para cerrar sesión real (apunta a /logout) -->
-            <li class="nav-item">
-                <a class="nav-link text-danger" th:href="@{/logout}">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                </a>
-            </li>
+            <li class="nav-item"><a class="nav-link text-danger" th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
         </ul>
     </nav>
 
-    <!-- Menú Lateral -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="#" class="brand-link">
-            <span class="brand-text font-weight-light"><b>SAES</b> UPIIZ</span>
-        </a>
+        <a href="#" class="brand-link"><span class="brand-text font-weight-light"><b>SAES</b> Panel</span></a>
         <div class="sidebar">
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link active">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>Directorio Alumnos</p>
-                        </a>
-                    </li>
+                    <li class="nav-item"><a th:href="@{/dashboard}" class="nav-link active"><i class="nav-icon fas fa-chart-line"></i><p>Dashboard</p></a></li>
+                    <li class="nav-item"><a th:href="@{/estudiantes}" class="nav-link"><i class="nav-icon fas fa-user-graduate"></i><p>Estudiantes</p></a></li>
+                    <li class="nav-item"><a th:href="@{/cursos}" class="nav-link"><i class="nav-icon fas fa-book"></i><p>Cursos</p></a></li>
+                    <li class="nav-item"><a th:href="@{/clientes}" class="nav-link"><i class="nav-icon fas fa-users"></i><p>Clientes</p></a></li>
+                    <li class="nav-item"><a th:href="@{/reservas}" class="nav-link"><i class="nav-icon fas fa-calendar-check"></i><p>Reservas</p></a></li>
+                    <li class="nav-item"><a th:href="@{/calificaciones}" class="nav-link"><i class="nav-icon fas fa-star"></i><p>Calificaciones</p></a></li>
                 </ul>
             </nav>
         </div>
     </aside>
 
-    <!-- Contenido Principal -->
     <div class="content-wrapper">
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Gestión de Alumnos y Estadísticas</h1>
-                    </div>
-                    <div class="col-sm-6 text-right">
-                        <a th:href="@{/dashboard/nuevo}" class="btn btn-success"><i class="fas fa-plus"></i> Nuevo Alumno</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <section class="content-header"><div class="container-fluid"><h1>Métricas del Sistema</h1></div></section>
 
         <section class="content">
             <div class="container-fluid">
 
-                <!-- Tarjetas de Estadísticas Superiores -->
                 <div class="row">
-                    <div class="col-lg-3 col-6">
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <h3 th:text="${totalSistemas}">0</h3>
-                                <p>Sistemas Computacionales</p>
-                            </div>
-                            <div class="icon"><i class="fas fa-laptop-code"></i></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-6">
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h3 th:text="${totalMecatronica}">0</h3>
-                                <p>Ingeniería Mecatrónica</p>
-                            </div>
-                            <div class="icon"><i class="fas fa-robot"></i></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-6">
-                        <div class="small-box bg-warning">
-                            <div class="inner">
-                                <h3 th:text="${totalAmbiental}">0</h3>
-                                <p>Ingeniería Ambiental</p>
-                            </div>
-                            <div class="icon"><i class="fas fa-leaf"></i></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-6">
-                        <div class="small-box bg-danger">
-                            <div class="inner">
-                                <h3 th:text="${totalDatos}">0</h3>
-                                <p>Ciencias de Datos</p>
-                            </div>
-                            <div class="icon"><i class="fas fa-database"></i></div>
-                        </div>
-                    </div>
+                    <div class="col-lg-4 col-6"><div class="small-box bg-info"><div class="inner"><h3 th:text="${totalEstudiantes}">0</h3><p>Estudiantes</p></div><div class="icon"><i class="fas fa-user-graduate"></i></div></div></div>
+                    <div class="col-lg-4 col-6"><div class="small-box bg-success"><div class="inner"><h3 th:text="${totalCursos}">0</h3><p>Cursos</p></div><div class="icon"><i class="fas fa-book"></i></div></div></div>
+                    <div class="col-lg-4 col-6"><div class="small-box bg-warning"><div class="inner"><h3 th:text="${totalClientes}">0</h3><p>Clientes</p></div><div class="icon"><i class="fas fa-users"></i></div></div></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-6"><div class="small-box bg-danger"><div class="inner"><h3 th:text="${totalReservas}">0</h3><p>Reservas</p></div><div class="icon"><i class="fas fa-calendar-check"></i></div></div></div>
+                    <div class="col-lg-6 col-6"><div class="small-box bg-primary"><div class="inner"><h3 th:text="${totalCalificaciones}">0</h3><p>Total Calificaciones</p></div><div class="icon"><i class="fas fa-star"></i></div></div></div>
                 </div>
 
-                <!-- SECCIÓN DE GRÁFICAS -->
+
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card card-danger">
-                            <div class="card-header"><h3 class="card-title">Donut Chart</h3></div>
-                            <div class="card-body"><canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas></div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card card-success">
-                            <div class="card-header"><h3 class="card-title">Bar Chart</h3></div>
-                            <div class="card-body"><div class="chart"><canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas></div></div>
-                        </div>
-                    </div>
+                    <div class="col-md-6"><div class="card card-info"><div class="card-header"><h3 class="card-title">Estudiantes</h3></div><div class="card-body"><div style="position: relative; height: 250px; width: 100%;"><canvas id="graficaEstudiantes"></canvas></div></div></div></div>
+                    <div class="col-md-6"><div class="card card-success"><div class="card-header"><h3 class="card-title">Cursos</h3></div><div class="card-body"><div style="position: relative; height: 250px; width: 100%;"><canvas id="graficaCursos"></canvas></div></div></div></div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card card-primary">
-                            <div class="card-header"><h3 class="card-title">Pie Chart</h3></div>
-                            <div class="card-body"><canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas></div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card card-info">
-                            <div class="card-header"><h3 class="card-title">Stacked Bar Chart</h3></div>
-                            <div class="card-body"><div class="chart"><canvas id="stackedBarChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas></div></div>
-                        </div>
-                    </div>
+                    <div class="col-md-6"><div class="card card-warning"><div class="card-header"><h3 class="card-title">Clientes</h3></div><div class="card-body"><div style="position: relative; height: 250px; width: 100%;"><canvas id="graficaClientes"></canvas></div></div></div></div>
+                    <div class="col-md-6"><div class="card card-danger"><div class="card-header"><h3 class="card-title">Reservas</h3></div><div class="card-body"><div style="position: relative; height: 250px; width: 100%;"><canvas id="graficaReservas"></canvas></div></div></div></div>
                 </div>
 
-                <!-- Tabla CRUD -->
-                <div class="card mt-4">
-                    <div class="card-header bg-dark">
-                        <h3 class="card-title">Listado de Alumnos</h3>
-                    </div>
-                    <div class="card-body p-0">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Matrícula</th>
-                                <th>Nombre Completo</th>
-                                <th>Carrera</th>
-                                <th style="width: 20%">Acciones</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="alumno : ${alumnos}">
-                                <td th:text="${alumno.id}"></td>
-                                <td th:text="${alumno.matricula}"></td>
-                                <td th:text="${alumno.nombre + ' ' + alumno.apellidos}"></td>
-                                <td th:text="${alumno.carrera}"></td>
-                                <td class="project-actions">
-                                    <a class="btn btn-info btn-sm" th:href="@{/dashboard/editar/{id}(id=${alumno.id})}"><i class="fas fa-pencil-alt"></i> Editar</a>
-                                    <a class="btn btn-danger btn-sm" th:href="@{/dashboard/eliminar/{id}(id=${alumno.id})}" onclick="return confirm('¿Seguro que deseas eliminar este registro?');"><i class="fas fa-trash"></i> Borrar</a>
-                                </td>
-                            </tr>
-                            <tr th:if="${alumnos.empty}">
-                                <td colspan="5" class="text-center">No hay alumnos registrados aún.</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6"><div class="card card-primary"><div class="card-header"><h3 class="card-title">Rendimiento (Aprobados vs Reprobados)</h3></div><div class="card-body"><div style="position: relative; height: 250px; width: 100%;"><canvas id="graficaCalificaciones"></canvas></div></div></div></div>
                 </div>
-
             </div>
         </section>
     </div>
@@ -187,51 +80,29 @@
 
 <script th:inline="javascript">
     $(function () {
-        var sysData = /*[[${totalSistemas}]]*/ 0;
-        var mecaData = /*[[${totalMecatronica}]]*/ 0;
-        var ambData = /*[[${totalAmbiental}]]*/ 0;
-        var dataData = /*[[${totalDatos}]]*/ 0;
-        var labelsCarreras = ['Sistemas', 'Mecatrónica', 'Ambiental', 'Ciencias de Datos'];
+        // 1. ESTUDIANTES
+        var sys = /*[[${estSistemas}]]*/ 0; var meca = /*[[${estMecatronica}]]*/ 0; var amb = /*[[${estAmbiental}]]*/ 0; var dat = /*[[${estDatos}]]*/ 0;
+        if(sys===0 && meca===0 && amb===0 && dat===0) sys = 1;
+        new Chart($('#graficaEstudiantes').get(0).getContext('2d'), { type: 'doughnut', data: { labels: ['Sistemas', 'Mecatrónica', 'Ambiental', 'Datos'], datasets: [{ data: [sys, meca, amb, dat], backgroundColor: ['#17a2b8', '#28a745', '#ffc107', '#dc3545'] }] }, options: { maintainAspectRatio: false, responsive: true }});
 
-        var circularData = {
-            labels: labelsCarreras,
-            datasets: [{
-                data: [sysData, mecaData, ambData, dataData],
-                backgroundColor : ['#17a2b8', '#28a745', '#ffc107', '#dc3545'],
-            }]
-        }
-        var circularOptions = { maintainAspectRatio : false, responsive : true }
+        // 2. CURSOS
+        var labelsCursos = /*[[${nombresCursos}]]*/ ['Ninguno']; var dataCreditos = /*[[${creditosCursos}]]*/ [0];
+        new Chart($('#graficaCursos').get(0).getContext('2d'), { type: 'bar', data: { labels: labelsCursos, datasets: [{ label: 'Créditos', data: dataCreditos, backgroundColor: '#28a745' }] }, options: { maintainAspectRatio: false, responsive: true, scales: { yAxes: [{ ticks: { beginAtZero: true } }] } }});
 
-        new Chart($('#donutChart').get(0).getContext('2d'), { type: 'doughnut', data: circularData, options: circularOptions })
-        new Chart($('#pieChart').get(0).getContext('2d'), { type: 'pie', data: circularData, options: circularOptions })
+        // 3. CLIENTES
+        var conC = /*[[${clientesConCorreo}]]*/ 0; var sinC = /*[[${clientesSinCorreo}]]*/ 0;
+        if(conC===0 && sinC===0) sinC = 1;
+        new Chart($('#graficaClientes').get(0).getContext('2d'), { type: 'pie', data: { labels: ['Con Correo', 'Sin Correo'], datasets: [{ data: [conC, sinC], backgroundColor: ['#17a2b8', '#6c757d'] }] }, options: { maintainAspectRatio: false, responsive: true }});
 
-        var areaChartData = {
-            labels  : labelsCarreras,
-            datasets: [{
-                label               : 'Alumnos Inscritos',
-                backgroundColor     : 'rgba(60,141,188,0.9)',
-                borderColor         : 'rgba(60,141,188,0.8)',
-                pointRadius         : false,
-                data                : [sysData, mecaData, ambData, dataData]
-            }]
-        }
-        var barChartOptions = { responsive: true, maintainAspectRatio: false, datasetFill: false }
-        var barChartData = $.extend(true, {}, areaChartData)
-        new Chart($('#barChart').get(0).getContext('2d'), { type: 'bar', data: barChartData, options: barChartOptions })
+        // 4. RESERVAS
+        var labelsRes = /*[[${labelsReservas}]]*/ ['Ninguna']; var dataRes = /*[[${dataReservas}]]*/ [0];
+        new Chart($('#graficaReservas').get(0).getContext('2d'), { type: 'bar', data: { labels: labelsRes, datasets: [{ label: 'Reservas Activas', data: dataRes, backgroundColor: '#dc3545' }, { label: 'Canceladas (Sim)', data: dataRes.map(()=>0), backgroundColor: '#343a40' }] }, options: { maintainAspectRatio: false, responsive: true, scales: { xAxes: [{ stacked: true }], yAxes: [{ stacked: true, ticks: { beginAtZero: true } }] } }});
 
-        var stackedBarChartData = $.extend(true, {}, barChartData)
-        stackedBarChartData.datasets.push({
-            label               : 'Egresados (Simulado)',
-            backgroundColor     : 'rgba(210, 214, 222, 1)',
-            borderColor         : 'rgba(210, 214, 222, 1)',
-            data                : [sysData + 2, mecaData + 1, ambData + 3, dataData + 2]
-        })
-        var stackedBarChartOptions = {
-            responsive: true, maintainAspectRatio: false,
-            scales: { xAxes: [{ stacked: true }], yAxes: [{ stacked: true }] }
-        }
-        new Chart($('#stackedBarChart').get(0).getContext('2d'), { type: 'bar', data: stackedBarChartData, options: stackedBarChartOptions })
-    })
+        // 5. CALIFICACIONES
+        var apr = /*[[${alumnosAprobados}]]*/ 0; var rep = /*[[${alumnosReprobados}]]*/ 0;
+        if(apr===0 && rep===0) apr = 1; // dummy data para no romper la UI
+        new Chart($('#graficaCalificaciones').get(0).getContext('2d'), { type: 'pie', data: { labels: ['Aprobados', 'Reprobados'], datasets: [{ data: [apr, rep], backgroundColor: ['#28a745', '#dc3545'] }] }, options: { maintainAspectRatio: false, responsive: true }});
+    });
 </script>
 </body>
 </html>
