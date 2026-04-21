@@ -39,10 +39,9 @@ public class CalificacionController {
     public String listarCalificaciones(Model model, HttpSession session) {
         if (obtenerUsuario(session) == null) return "redirect:/login";
 
-        // 1. Obtenemos las calificaciones
         Iterable<Calificacion> calificaciones = calificacionRepository.findAll();
 
-        // 2. Creamos "Diccionarios" (Mapas) para traducir IDs a Nombres reales
+        // Creamos "Diccionarios" (Mapas) para traducir IDs a Nombres reales
         Map<Long, String> mapaEstudiantes = new HashMap<>();
         for (Estudiante e : estudianteRepository.findAll()) {
             mapaEstudiantes.put(e.getId(), e.getNombre());
@@ -93,7 +92,6 @@ public class CalificacionController {
         if (obtenerUsuario(session) == null) return "redirect:/login";
         Calificacion cal = calificacionRepository.findById(id).orElseThrow();
 
-        // Buscamos los nombres para mostrarlos en la pantalla de borrado
         String nomEstudiante = estudianteRepository.findById(cal.getEstudianteId()).map(Estudiante::getNombre).orElse("Desconocido");
         String nomCurso = cursoRepository.findById(cal.getCursoId()).map(Curso::getNombre).orElse("Desconocido");
 

@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS estudiantes_cursos (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     estudiante_id BIGINT NOT NULL,
     curso_id BIGINT NOT NULL,
-    semestre VARCHAR(10) NOT NULL,
+    semestre VARCHAR(10)NOT NULL,
     calificacion DECIMAL(3,1),
     UNIQUE(estudiante_id, curso_id, semestre),
     FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id) ON DELETE CASCADE,

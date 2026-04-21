@@ -52,7 +52,9 @@
                     <table class="table table-hover table-striped">
                         <thead class="bg-primary">
                         <tr>
+                            <th><i class="fas fa-user"></i> ID_Estudiante</th>
                             <th><i class="fas fa-user"></i> Estudiante</th>
+                            <th><i class="fas fa-book-open"></i> ID_Curso</th>
                             <th><i class="fas fa-book-open"></i> Curso</th>
                             <th><i class="fas fa-calendar-alt"></i> Semestre</th>
                             <th><i class="fas fa-check-circle"></i> Calificación</th>
@@ -61,9 +63,12 @@
                         </thead>
                         <tbody>
                         <tr th:each="cal : ${calificaciones}">
-                            <!-- Aquí ocurre la magia: Usamos el ID para buscar el Nombre en el mapa de Java -->
+                            <!-- ID ESTUDIANTE -->
+                            <td th:text="${cal.estudianteId}"></td>
                             <td class="font-weight-bold" th:text="${mapaEstudiantes[cal.estudianteId]}"></td>
-                            <td th:text="${mapaCursos[cal.cursoId]}"></td>
+
+                            <td th:text="${cal.cursoId}"></td>
+                            <td class="font-weight-bold" th:text="${mapaCursos[cal.cursoId]}"></td>
 
                             <td th:text="${cal.semestre}"></td>
                             <td>
