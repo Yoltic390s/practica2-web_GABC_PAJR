@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/estudiantes")
 public class EstudianteController {
@@ -24,10 +27,8 @@ public class EstudianteController {
 
     @GetMapping
     public String listarEstudiantes(Model model, HttpSession session) {
-        Usuario user = obtenerUsuario(session);
-        if (user == null) return "redirect:/login";
-
-        model.addAttribute("nombreUsuario", user.getNombre());
+        if (obtenerUsuario(session) == null) return "redirect:/login";
+        model.addAttribute("nombreUsuario", obtenerUsuario(session).getNombre());
         model.addAttribute("estudiantes", estudianteRepository.findAll());
         return "lista_estudiantes";
     }
@@ -43,8 +44,7 @@ public class EstudianteController {
     @GetMapping("/editar/{id}")
     public String formularioEditar(@PathVariable("id") Long id, Model model, HttpSession session) {
         if (obtenerUsuario(session) == null) return "redirect:/login";
-        Estudiante est = estudianteRepository.findById(id).orElseThrow();
-        model.addAttribute("estudiante", est);
+        model.addAttribute("estudiante", estudianteRepository.findById(id).orElseThrow());
         model.addAttribute("nombreUsuario", obtenerUsuario(session).getNombre());
         return "formulario_estudiante";
     }
@@ -55,14 +55,25 @@ public class EstudianteController {
         estudianteRepository.save(estudiante);
         return "redirect:/estudiantes";
     }
-    //aqui tienes tu pagina pendejo
+
     @GetMapping("/borrar/{id}")
     public String mostrarConfirmacionBorrar(@PathVariable("id") Long id, Model model, HttpSession session) {
         if (obtenerUsuario(session) == null) return "redirect:/login";
         Estudiante est = estudianteRepository.findById(id).orElseThrow();
-        model.addAttribute("estudiante", est);
+
+        Map<String, String> detalles = new LinkedHashMap<>();
+        detalles.put("Matrícula", est.getMatricula());
+        detalles.put("Nombre del Alumno", est.getNombre());
+        detalles.put("Carrera", est.getCarrera());
+
         model.addAttribute("nombreUsuario", obtenerUsuario(session).getNombre());
-        return "confirmar_borrado";
+        model.addAttribute("entidadNombre", "Estudiante");
+        model.addAttribute("detalles", detalles);
+
+        model.addAttribute("urlEliminar", "/estudiantes/eliminar/" + id);
+        model.addAttribute("urlRegresar", "/estudiantes");
+
+        return "confirmar_borrar";
     }
 
     @PostMapping("/eliminar/{id}")

@@ -33,7 +33,7 @@
                                 <h3 class="card-title">Vas a borrar este registro de <b th:text="${entidadNombre}">Entidad</b>. ¿Estás seguro?</h3>
                             </div>
 
-                            <form th:action="${urlEliminar}" method="post">
+                            <form th:action="@{${urlEliminar}}" method="post">
                                 <div class="card-body">
 
                                     <div class="form-group" th:each="detalle : ${detalles}">
@@ -43,7 +43,7 @@
 
                                 </div>
                                 <div class="card-footer text-right">
-                                    <a th:href="${urlRegresar}" class="btn btn-secondary">Regresar</a>
+                                    <a th:href="@{${urlRegresar}}" class="btn btn-secondary">Regresar</a>
                                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Sí, Borrar Definitivamente</button>
                                 </div>
                             </form>
