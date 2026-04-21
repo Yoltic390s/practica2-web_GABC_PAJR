@@ -62,9 +62,9 @@ public class ClienteController {
         Cliente cliente = clienteRepository.findById(id).orElseThrow();
 
         Map<String, String> detalles = new LinkedHashMap<>();
-        detalles.put("Nombre Completo", cliente.getNombreCompleto());
-        detalles.put("Teléfono", cliente.getTelefono());
-        detalles.put("Correo", cliente.getCorreo() == null ? "Sin correo" : cliente.getCorreo());
+        detalles.put("Nombre Completo", cliente.getNombreCompleto() != null ? cliente.getNombreCompleto() : "Desconocido");
+        detalles.put("Teléfono", cliente.getTelefono() != null && !cliente.getTelefono().isEmpty() ? cliente.getTelefono() : "Sin teléfono");
+        detalles.put("Correo", cliente.getCorreo() != null && !cliente.getCorreo().isEmpty() ? cliente.getCorreo() : "Sin correo");
 
         model.addAttribute("nombreUsuario", obtenerUsuario(session).getNombre());
         model.addAttribute("entidadNombre", "Cliente");

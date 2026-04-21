@@ -42,7 +42,6 @@ public class AuthController {
         Usuario usuarioAutenticado = usuarioRepository.findByBoletaAndContrasena(usuario.getBoleta(), usuario.getContrasena());
 
         if (usuarioAutenticado != null) {
-            // AQUÍ GUARDAMOS TU USUARIO EN LA SESIÓN
             session.setAttribute("usuarioLogueado", usuarioAutenticado);
             return "redirect:/dashboard";
         } else {

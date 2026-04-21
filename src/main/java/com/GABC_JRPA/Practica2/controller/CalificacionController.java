@@ -39,9 +39,10 @@ public class CalificacionController {
     public String listarCalificaciones(Model model, HttpSession session) {
         if (obtenerUsuario(session) == null) return "redirect:/login";
 
+        // 1. Obtenemos las calificaciones
         Iterable<Calificacion> calificaciones = calificacionRepository.findAll();
 
-        // Creamos "Diccionarios" (Mapas) para traducir IDs a Nombres reales
+        // 2. Creamos "Diccionarios" (Mapas) para traducir IDs a Nombres reales
         Map<Long, String> mapaEstudiantes = new HashMap<>();
         for (Estudiante e : estudianteRepository.findAll()) {
             mapaEstudiantes.put(e.getId(), e.getNombre());
@@ -92,14 +93,21 @@ public class CalificacionController {
         if (obtenerUsuario(session) == null) return "redirect:/login";
         Calificacion cal = calificacionRepository.findById(id).orElseThrow();
 
-        String nomEstudiante = estudianteRepository.findById(cal.getEstudianteId()).map(Estudiante::getNombre).orElse("Desconocido");
-        String nomCurso = cursoRepository.findById(cal.getCursoId()).map(Curso::getNombre).orElse("Desconocido");
+        String nomEstudiante = "Desconocido";
+        if (cal.getEstudianteId() != null) {
+            nomEstudiante = estudianteRepository.findById(cal.getEstudianteId()).map(Estudiante::getNombre).orElse("Desconocido");
+        }
+
+        String nomCurso = "Desconocido";
+        if (cal.getCursoId() != null) {
+            nomCurso = cursoRepository.findById(cal.getCursoId()).map(Curso::getNombre).orElse("Desconocido");
+        }
 
         Map<String, String> detalles = new LinkedHashMap<>();
         detalles.put("Estudiante", nomEstudiante);
         detalles.put("Curso", nomCurso);
-        detalles.put("Semestre", cal.getSemestre());
-        detalles.put("Calificación Final", String.valueOf(cal.getCalificacion()));
+        detalles.put("Semestre", cal.getSemestre() != null ? cal.getSemestre() : "N/A");
+        detalles.put("Calificación Final", cal.getCalificacion() != null ? String.valueOf(cal.getCalificacion()) : "N/A");
 
         model.addAttribute("nombreUsuario", obtenerUsuario(session).getNombre());
         model.addAttribute("entidadNombre", "Calificación");

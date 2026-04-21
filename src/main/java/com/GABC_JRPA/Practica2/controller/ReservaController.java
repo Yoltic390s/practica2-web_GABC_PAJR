@@ -68,10 +68,10 @@ public class ReservaController {
         Reserva reserva = reservaRepository.findById(id).orElseThrow();
 
         Map<String, String> detalles = new LinkedHashMap<>();
-        detalles.put("Habitación", String.valueOf(reserva.getHabitacion()));
-        detalles.put("Fecha Entrada", reserva.getFechaEntrada().toString());
-        detalles.put("Fecha Salida", reserva.getFechaSalida().toString());
-        detalles.put("ID Cliente", String.valueOf(reserva.getIdCliente()));
+        detalles.put("Habitación", reserva.getHabitacion() != null ? String.valueOf(reserva.getHabitacion()) : "Sin Cuarto");
+        detalles.put("Fecha Entrada", reserva.getFechaEntrada() != null ? reserva.getFechaEntrada().toString() : "Sin Fecha");
+        detalles.put("Fecha Salida", reserva.getFechaSalida() != null ? reserva.getFechaSalida().toString() : "Sin Fecha");
+        detalles.put("ID Cliente", reserva.getIdCliente() != null ? String.valueOf(reserva.getIdCliente()) : "Desconocido");
 
         model.addAttribute("nombreUsuario", obtenerUsuario(session).getNombre());
         model.addAttribute("entidadNombre", "Reserva");
